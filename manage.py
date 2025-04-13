@@ -29,3 +29,6 @@ def my_new_func2():
 
 if __name__ == "__main__":
     main()
+    new_function()
+    my_new_func2()
+

@@ -22,5 +22,10 @@ def new_function():
     print("Barcelona")
 
 
+def my_new_func2():
+    print("Real Madrid")
+
+
+
 if __name__ == "__main__":
     main()

@@ -18,5 +18,9 @@ def main():
     execute_from_command_line(sys.argv)
 
 
+def new_function():
+    print("Barcelona")
+
+
 if __name__ == "__main__":
     main()

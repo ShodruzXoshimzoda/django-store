@@ -18,17 +18,7 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-def new_function():
-    print("Barcelona")
-
-
-def my_new_func2():
-    print("Real Madrid")
-
-
 
 if __name__ == "__main__":
     main()
-    new_function()
-    my_new_func2()
 

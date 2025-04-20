@@ -7,3 +7,4 @@ def login(request):
 
 def registration(request):
     return render(request,'users/registration.html')
+

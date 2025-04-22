@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect,reverse
 from django.contrib import auth         # Используем для того чтобы понять существует ли такой пользователь
 
 from .models import  User
-from users.forms import UserLoginForm, UserRegistrationForm
+from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
 
 def login(request):
     """   Функция для регистрации пользователей  """
@@ -35,5 +35,13 @@ def registration(request):
     return render(request,'users/registration.html',context)
 
 def profile(request):
-    context = {"title":"Store-Профиль"}
+    if request.method == "POST":
+        form = UserPofileForm(instance=request.user,data=request.POST,files=request.FILES)
+        ''' instance=request.user - обновляет форму для текущего плзователья '''
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("users:profile"))
+    else:
+        form = UserPofileForm(instance=request.user)    # instance request.user - мы получаем объект пользователья
+    context = {"title":"Store-Профиль",'form':form} # Форма будет заполнена данными о пользователе
     return render(request, 'users/profile.html',context)

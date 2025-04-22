@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect,reverse
-from django.contrib import auth         # Используем для того чтобы понять существует ли такой пользователь
-
+from django.contrib import auth,messages       # Используем для того чтобы понять существует ли такой пользователь
+# messages исполльзуется для сообщениё пользователью
 from .models import  User
 from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
 
@@ -28,6 +28,7 @@ def registration(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Поздравляем вы успешно зарегистрировались! ')
             return HttpResponseRedirect(reverse('users:login'))
     else:
         form = UserRegistrationForm()
@@ -40,6 +41,7 @@ def profile(request):
         ''' instance=request.user - обновляет форму для текущего плзователья '''
         if form.is_valid():
             form.save()
+            # messages.success(request,'Ваши страничка была обновлене')
             return HttpResponseRedirect(reverse("users:profile"))
     else:
         form = UserPofileForm(instance=request.user)    # instance request.user - мы получаем объект пользователья

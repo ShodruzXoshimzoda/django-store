@@ -3,7 +3,7 @@ from django.contrib import auth,messages       # Используем для т�
 # messages исполльзуется для сообщениё пользователью
 from .models import  User
 from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
-
+from products.models import Basket
 def login(request):
     """   Авторизации пользователей """
     if request.method == "POST":
@@ -47,7 +47,10 @@ def profile(request):
             return HttpResponseRedirect(reverse("users:profile"))
     else:
         form = UserPofileForm(instance=request.user)    # instance request.user - мы получаем объект пользователья
-    context = {"title":"Store-Профиль",'form':form} # Форма будет заполнена данными о пользователе
+    context = {"title":"Store-Профиль",
+               'form':form,                               # Форма будет заполнена данными о пользователе
+               'baskets':Basket.objects.filter(user=request.user)              # Берём в корзину те товары которые принадлежать ему
+               }
     return render(request, 'users/profile.html',context)
 
 def logout(request):

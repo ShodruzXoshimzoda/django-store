@@ -1,5 +1,5 @@
 from django.db import models
-
+from users.models import User   # Импортируем пользвателья из приложения users
 class ProductCategory(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
@@ -18,5 +18,13 @@ class Product(models.Model):
     def __str__(self):
         return f' Продукт: {self.name} | {self.category.name}'
 
+class Basket(models.Model):
+    '''  Класс корзины   '''
 
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)         # Привязываем пользователья к корзине
+    product = models.ForeignKey(to=Product, on_delete=models.CASCADE)   # Привязываем продукты к корзине
+    quantity = models.PositiveSmallIntegerField(default=0)              # Количество товаров
+    created_timestamp = models.DateTimeField(auto_now_add=True)         # Время добавление
 
+    def __str__(self):
+        return f'Корзина для {self.user.name} Продукт: {self.product.name}'

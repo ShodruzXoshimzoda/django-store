@@ -18,6 +18,16 @@ class Product(models.Model):
     def __str__(self):
         return f' Продукт: {self.name} | {self.category.name}'
 
+class BasketQuerySet(models.QuerySet):
+    '''  Менеджер объектов который посчитывает количество товаров и их общую сумму - objects'''
+
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
+
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
+
+
 class Basket(models.Model):
     '''  Класс корзины   '''
 
@@ -26,5 +36,10 @@ class Basket(models.Model):
     quantity = models.PositiveSmallIntegerField(default=0)              # Количество товаров
     created_timestamp = models.DateTimeField(auto_now_add=True)         # Время добавление
 
+    objects = BasketQuerySet.as_manager()               # Используем созданный нами класс как менеджер
     def __str__(self):
         return f'Корзина для {self.user.name} Продукт: {self.product.name}'
+
+    def sum(self):
+        ''' Эта функция возвращет суму  товаров одного типа  '''
+        return  self.product.price * self.quantity

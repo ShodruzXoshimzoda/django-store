@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect,reverse
 from django.contrib import auth,messages       # Используем для того чтобы понять существует ли такой пользователь
 # messages исполльзуется для сообщениё пользователью
+from django.contrib.auth.decorators import login_required  # Декоратр доступа
 from .models import  User
 from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
 from products.models import Basket
@@ -36,6 +37,7 @@ def registration(request):
     context = {'form':form}
     return render(request,'users/registration.html',context)
 
+@login_required
 def profile(request):
     '''  Профиль пользователья   '''
     if request.method == "POST":

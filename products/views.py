@@ -5,10 +5,12 @@ from users.models import  User
 def index(request):
     context = {'title':'Store',}
     return render(request,'products/index.html',context)
-def products(request):
+
+def products(request,category_id=None): # Берём id продукта(она может и не передаваться)
+
     context = {
         'title':'Store - Каталог',
-        'products':Product.objects.all(),
+        'products':Product.objects.filter(category_id=category_id) if category_id else Product.objects.all(),
         'categories': ProductCategory.objects.all(),
     }
     return render(request,'products/products.html',context)

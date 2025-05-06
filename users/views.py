@@ -65,12 +65,6 @@ from django.contrib.auth.views import LoginView
 #     return HttpResponseRedirect(reverse('index'))
 
 
-class UserLoginView(LoginView):
-    template_name = 'users/login.html'
-    form_class = UserLoginForm
-
-
-
 '''Классовеое представление'''
 
 class UserLoginView(LoginView):

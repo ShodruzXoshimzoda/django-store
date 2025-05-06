@@ -7,26 +7,26 @@ from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
 from products.models import Basket
 from django.views.generic.edit import CreateView,UpdateView
 from django.urls import reverse,reverse_lazy
+from django.contrib.auth.views import LoginView
 
+# def login(request):
+#     """   Авторизации пользователей """
+#     if request.method == "POST":
+#         form = UserLoginForm(data=request.POST)
+#         if form.is_valid():
+#             # Провряем форму на валидность
+#             username = request.POST['username']
+#             password = request.POST['password']
 
-def login(request):
-    """   Авторизации пользователей """
-    if request.method == "POST":
-        form = UserLoginForm(data=request.POST)
-        if form.is_valid():
-            # Провряем форму на валидность
-            username = request.POST['username']
-            password = request.POST['password']
-
-            user = auth.authenticate(username=username,password=password)   # Проверяем на подлинность
-            if user:
-                """Если есть такой пользователь в базе то авторизуем его """
-                auth.login(request,user)
-                return HttpResponseRedirect(reverse("index"))
-    else:
-        form = UserLoginForm()
-    context = {"forms":form}
-    return render(request,'users/login.html',context)
+#             user = auth.authenticate(username=username,password=password)   # Проверяем на подлинность
+#             if user:
+#                 """Если есть такой пользователь в базе то авторизуем его """
+#                 auth.login(request,user)
+#                 return HttpResponseRedirect(reverse("index"))
+#     else:
+#         form = UserLoginForm()
+#     context = {"forms":form}
+#     return render(request,'users/login.html',context)
 
 # def registration(request):
 #     '''   Регистрации пользователей      '''
@@ -59,15 +59,24 @@ def login(request):
 #                }
 #     return render(request, 'users/profile.html',context)
 
-def logout(request):
-    """ Выход из системы  """
-    auth.logout(request)  # выходим из системы
-    return HttpResponseRedirect(reverse('index'))
+# def logout(request):
+#     """ Выход из системы  """
+#     auth.logout(request)  # выходим из системы
+#     return HttpResponseRedirect(reverse('index'))
 
+
+class UserLoginView(LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
 
 
 
 '''Классовеое представление'''
+
+class UserLoginView(LoginView):
+    template_name = 'users/login.html'
+    form_class = UserLoginForm
+
 
 class UserRegistrationView(CreateView):
     ''' Классовое представление для странички регистрации'''

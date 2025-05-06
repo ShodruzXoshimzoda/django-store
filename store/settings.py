@@ -133,4 +133,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 #   Users
 LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = 'index'            # Перенаправление пользователья после успешной регистрации           # Перенаправление пользователья после успешной выхода из системы
+LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'users.User'

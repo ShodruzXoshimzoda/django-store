@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect,reverse
 from django.contrib import auth,messages       # Используем для того чтобы понять существует ли такой пользователь
-# messages исполльзуется для сообщениё пользователью
+# messages используется для сообщениё пользователью
 from django.contrib.auth.decorators import login_required  # Декоратр доступа
 from .models import  User
 from users.forms import UserLoginForm, UserRegistrationForm,UserPofileForm
@@ -9,6 +9,11 @@ from django.views.generic.edit import CreateView,UpdateView
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from common.views import TitleMixin
+
+
+
+
 # def login(request):
 #     """   Авторизации пользователей """
 #     if request.method == "POST":
@@ -67,39 +72,40 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 '''Классовеое представление'''
 
-class UserLoginView(LoginView):
+class UserLoginView(TitleMixin,LoginView):
     template_name = 'users/login.html'
     form_class = UserLoginForm
+    title = 'Store - Авторизация'
 
 
-class UserRegistrationView(SuccessMessageMixin,CreateView):
+class UserRegistrationView(TitleMixin,SuccessMessageMixin,CreateView):
     ''' Классовое представление для странички регистрации'''
     model = User
     form_class = UserRegistrationForm
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
     success_message = 'Поздравляем вы успешно зарегистрировались! '
+    title = 'Store - Регистрация'
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserRegistrationView,self).get_context_data()
+    #     context['title'] = 'Store - страничка Регистраци'
+    #
+    #     return context
 
-    def get_context_data(self, **kwargs):
-        context = super(UserRegistrationView,self).get_context_data()
-        context['title'] = 'Store - страничка Регистраци'
-        
-        return context
-    
 
-class UserProfileView(UpdateView):
+class UserProfileView(TitleMixin,UpdateView):
     '''Классвое представдение для личного кабинета'''
     model = User
     form_class = UserPofileForm
     template_name =  'users/profile.html'
-
+    title = 'Store - Личный кабинет'
     def get_success_url(self):
         # Для обновлеления 
         return reverse_lazy('users:profile',args = (self.object.id,))
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileView,self).get_context_data()
-        context['title'] = 'Store - Личный кабинет'
+        # context['title'] = 'Store - Личный кабинет'
         context['baskets'] = Basket.objects.filter(user=self.request.user)    
         
         return context

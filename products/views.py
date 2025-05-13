@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required # Декортор д�
 from django.core.paginator import  Paginator
 from django.views.generic.base import TemplateView   # TemplateView отвечает за базовый шаблон
 from django.views.generic.list import ListView       # ListView для страницы продуктов 
-
+from common.views import TitleMixin
 
 '''             Функциональное представление          '''
 
@@ -30,21 +30,26 @@ from django.views.generic.list import ListView       # ListView для стра�
 
 '''     Классовое представление - CBV'''
 
-class IndexView(TemplateView):
+class IndexView(TitleMixin,TemplateView):
     '''  Класовое представление для index   '''
     template_name = 'products/index.html'   # Данный метод рендерид страницу
+    title = 'Store'                        # Добавил title из миксина
 
-    def get_context_data(self, **kwargs):   # Метод для добавление контекста
-        context =  super(IndexView,self).get_context_data()
-        context['title'] = 'Store'          # задаём titlе в контекст
-        return context
-    
 
-class ProductListView(ListView):
+    # def get_context_data(self, **kwargs):   # Метод для добавление контекста
+    #     context =  super(IndexView,self).get_context_data()
+    #     context['title'] = 'Store'          # задаём titlе в контекст
+    #     return context
+    #
+
+class ProductListView(TitleMixin,ListView):
     '''Класове представление для Products'''
     model = Product     # Указываем что работаем  моделья Product
     template_name = 'products/products.html'
     paginate_by = 3
+    title =  'Каталог - Store'
+
+
     def get_queryset(self):
         queryset = super(ProductListView,self).get_queryset()
         category_id = self.kwargs.get('category_id')          # Получаем id категорий 
@@ -53,7 +58,7 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context =  super(ProductListView,self).get_context_data()
-        context['title'] = 'Каталог Store'
+        # context['title'] = 'Каталог Store'
         context['categories'] = ProductCategory.objects.all()
         return context
     

@@ -8,7 +8,7 @@ from products.models import Basket
 from django.views.generic.edit import CreateView,UpdateView
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.views import LoginView
-
+from django.contrib.messages.views import SuccessMessageMixin
 # def login(request):
 #     """   Авторизации пользователей """
 #     if request.method == "POST":
@@ -72,13 +72,13 @@ class UserLoginView(LoginView):
     form_class = UserLoginForm
 
 
-class UserRegistrationView(CreateView):
+class UserRegistrationView(SuccessMessageMixin,CreateView):
     ''' Классовое представление для странички регистрации'''
     model = User
     form_class = UserRegistrationForm
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
-
+    success_message = 'Поздравляем вы успешно зарегистрировались! '
 
     def get_context_data(self, **kwargs):
         context = super(UserRegistrationView,self).get_context_data()

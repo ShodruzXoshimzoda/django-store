@@ -1,6 +1,11 @@
+import uuid
+from datetime import timedelta
+
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm,UserChangeForm # формы для авторизации и создании пользователей и личный кабинеь
-from .models import User
+from .models import User,EmailVerification
 from django import forms
+from django.utils.timezone import now
+
 
 class UserLoginForm(AuthenticationForm):
     """Класс формы для авторизации пользователей"""
@@ -38,6 +43,17 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name','last_name','username','email','password1','password2')
+
+    def save(self, commit = True):
+        ''' При регистрации каждого пользователья будет создаться объект email verification '''
+
+        user = super(UserRegistrationForm,self).save(commit=True)
+        expiration = now()+timedelta(hours=48)
+        record = EmailVerification.objects.create(code = uuid.uuid4(), user = user, expiration = expiration)
+        record.send_email_verification()
+        return user
+
+
 
 
 class UserPofileForm(UserChangeForm):

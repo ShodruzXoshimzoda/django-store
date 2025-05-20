@@ -136,3 +136,7 @@ LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = 'index'            # Перенаправление пользователья после успешной регистрации           # Перенаправление пользователья после успешной выхода из системы
 LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'users.User'
+
+# Sending Emails
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

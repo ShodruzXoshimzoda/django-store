@@ -38,7 +38,7 @@ class Basket(models.Model):
 
     objects = BasketQuerySet.as_manager()               # Используем созданный нами класс как менеджер
     def __str__(self):
-        return f'Корзина для {self.user.name} Продукт: {self.product.name}'
+        return f'Корзина для {self.user.username} Продукт: {self.product.name}'
 
     def sum(self):
         ''' Эта функция возвращет суму  товаров одного типа  '''

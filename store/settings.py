@@ -140,4 +140,16 @@ AUTH_USER_MODEL = 'users.User'
 
 # Sending Emails
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True  # Включаем TLS вместо SSL
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'shodruzxoshimzoda@gmail.com'
+EMAIL_HOST_PASSWORD = 'zpax uctk sqtz tlqy'  # Лучше использовать пароль для приложений
+
+#zpax uctk sqtz tlqy
+
+

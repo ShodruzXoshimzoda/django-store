@@ -104,12 +104,12 @@ class UserProfileView(TitleMixin,UpdateView):
         # Для обновлеления 
         return reverse_lazy('users:profile',args = (self.object.id,))
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileView,self).get_context_data()
-        # context['title'] = 'Store - Личный кабинет'
-        context['baskets'] = Basket.objects.filter(user=self.request.user)    
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserProfileView,self).get_context_data()
+    #     # context['title'] = 'Store - Личный кабинет'
+    #     context['baskets'] = Basket.objects.filter(user=self.request.user)    
         
-        return context
+    #     return context
 
 
 class EmailVerificationView(TitleMixin,TemplateView):
